@@ -10,9 +10,9 @@ namespace NLock.Core.Locks
         void Acquire(int millisecondsTimeout);
         void Acquire(TimeSpan timeout);
 
-        //bool TryAcquire();
-        //bool TryAcquire(int millisecondsTimeout);
-        //bool TryAcquire(TimeSpan timeout);
+        bool TryAcquire();
+        bool TryAcquire(int millisecondsTimeout);
+        bool TryAcquire(TimeSpan timeout);
 
         void Release();
     }

@@ -11,9 +11,9 @@ namespace NLock.Core.Locks
         Task AcquireAsync(int millisecondsTimeout);
         Task AcquireAsync(TimeSpan timeout);
 
-        //Task<bool> TryAcquireAsync();
-        //Task<bool> TryAcquireAsync(int millisecondsTimeout);
-        //Task<bool> TryAcquireAsync(TimeSpan timeout);
+        Task<bool> TryAcquireAsync();
+        Task<bool> TryAcquireAsync(int millisecondsTimeout);
+        Task<bool> TryAcquireAsync(TimeSpan timeout);
 
         Task ReleaseAsync();
     }
