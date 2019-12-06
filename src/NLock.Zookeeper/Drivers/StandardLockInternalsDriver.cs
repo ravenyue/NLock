@@ -1,4 +1,5 @@
-﻿using org.apache.zookeeper;
+﻿using NLock.Core;
+using org.apache.zookeeper;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace NLock.Zookeeper
 
         public virtual PredicateResults GetTheLock(ZooKeeper client, List<string> sortedChildren, string sequenceNodePath, int maxLeases)
         {
-            var sequenceNodeName = Path.GetFileName(sequenceNodePath);
+            var sequenceNodeName = ZKPaths.GetNodeFromPath(sequenceNodePath);
             var ourIndex = sortedChildren.IndexOf(sequenceNodeName);
             if (ourIndex < 0)
             {

@@ -1,4 +1,5 @@
-﻿using NLock.Core.Locks;
+﻿using NLock.Core;
+using NLock.Core.Locks;
 using org.apache.zookeeper;
 using System;
 using System.Collections.Concurrent;
@@ -26,7 +27,7 @@ namespace NLock.Zookeeper
 
         public ZookeeperMutexLock(ZooKeeper zkClient, string path, string lockName, int maxLeases, ILockInternalsDriver driver, int lockTimeout)
         {
-            _basePath = path;
+            _basePath = ZKPaths.ValidatePath(path);
             _lockTimeout = lockTimeout;
             _internals = new LockInternals(zkClient, driver, path, lockName, maxLeases);
         }

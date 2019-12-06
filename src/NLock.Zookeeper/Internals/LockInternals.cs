@@ -1,4 +1,5 @@
-﻿using org.apache.zookeeper;
+﻿using NLock.Core;
+using org.apache.zookeeper;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,8 +25,8 @@ namespace NLock.Zookeeper
             _lockName = lockName;
             _maxLeases = maxLeases;
             _zkClient = zkClient;
-            _basePath = path;
-            _path = path + "/" + lockName;
+            _basePath = ZKPaths.ValidatePath(path);
+            _path = ZKPaths.MakePath(path, lockName);
             _signal = new SemaphoreSlim(0);
             _watcher = new ReleaseLockWatcher(_signal);
         }
@@ -87,7 +88,7 @@ namespace NLock.Zookeeper
                     }
 
                     // 上一个节点路径
-                    var previousSequencePath = _basePath + "/" + predicateResults.NodeToWatch;
+                    var previousSequencePath = ZKPaths.MakePath(_basePath, predicateResults.NodeToWatch);
 
                     try
                     {
