@@ -28,26 +28,29 @@ namespace NLock.Zookeeper
 
         public static async Task<string> RecursionCreateAsync(this ZooKeeper zkClient, string path, byte[] data, List<ACL> acl, CreateMode createMode)
         {
+            ZKPaths.ValidatePath(path);
+
             var paths = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-            //zkClient.
-            string outPath = path;
+
+            string outPath = null;
             var currPath = string.Empty;
             for (int i = 0; i < paths.Length; i++)
             {
                 currPath += "/" + paths[i];
 
                 try
-                {
-                    if (i == paths.Length - 1) // 叶子节点
-                    {
-                        outPath = await zkClient.createAsync(currPath, data, acl, createMode);
-                        return outPath;
-                    }
-
+                {                
                     var stat = await zkClient.existsAsync(currPath);
                     if (stat == null) // 节点不存在
                     {
-                        await zkClient.createAsync(currPath, null, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+                        if (i == paths.Length - 1) // 终节点
+                        {
+                            outPath = await zkClient.createAsync(currPath, data, acl, createMode);
+                        }
+                        else
+                        {
+                            await zkClient.createAsync(currPath, null, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+                        }
                     }
                 }
                 catch (KeeperException.NodeExistsException)

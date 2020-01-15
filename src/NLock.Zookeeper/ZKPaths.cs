@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace NLock.Core
+namespace NLock.Zookeeper
 {
     public static class ZKPaths
     {
@@ -82,11 +82,11 @@ namespace NLock.Core
             }
             if (path.Length == 0)
             {
-                throw new ArgumentNullException(nameof(path), "Path length must be > 0");
+                throw new ArgumentException("Path length must be > 0", nameof(path));
             }
             if (path[0] != '/')
             {
-                throw new ArgumentException(nameof(path), "Path must start with / character");
+                throw new ArgumentException("Path must start with / character", nameof(path));
             }
             if (path.Length == 1)
             { // done checking - it's the root
@@ -94,7 +94,7 @@ namespace NLock.Core
             }
             if (path[path.Length - 1] == '/')
             {
-                throw new ArgumentException(nameof(path), "Path must not end with / character");
+                throw new ArgumentException("Path must not end with / character", nameof(path));
             }
 
             string reason = null;
@@ -147,8 +147,8 @@ namespace NLock.Core
 
             if (reason != null)
             {
-                throw new ArgumentException(nameof(path),
-                        "Invalid path string \"" + path + "\" caused by " + reason);
+                throw new ArgumentException(
+                        $"Invalid path string \"{path}\" caused by " + reason, nameof(path));
             }
 
             return path;
