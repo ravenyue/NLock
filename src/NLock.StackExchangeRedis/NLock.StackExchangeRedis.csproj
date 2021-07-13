@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Lua\MutexLock_Acquire.lua" />
+    <None Remove="Lua\MutexLock_Release.lua" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Lua\*.lua" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetty.Common" Version="0.6.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.2.62" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NLock.Core\NLock.Core.csproj" />
+  </ItemGroup>
+
+</Project>
